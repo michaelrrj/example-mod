@@ -2,7 +2,6 @@ name: Build Geode Mod
 
 on:
   push:
-  pull_request:
 
 jobs:
   build:
@@ -17,17 +16,18 @@ jobs:
           sudo apt update
           sudo apt install -y git cmake ninja-build clang python3 python3-pip
 
-      - name: Install Geode CLI
+      - name: Clone Geode SDK
         run: |
-          pip3 install geode-cli
+          git clone https://github.com/geode-sdk/geode.git
 
       - name: Setup Geode
         run: |
-          geode sdk install
+          cd geode
+          python3 setup.py install
 
       - name: Configure
         run: |
-          cmake -B build -G Ninja
+          cmake -B build -G Ninja -DGEODE_SDK_PATH=geode
 
       - name: Build
         run: |

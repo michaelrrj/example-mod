@@ -8,24 +8,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y git cmake ninja-build clang python3 python3-pip
+          sudo apt install -y git cmake ninja-build clang
 
       - name: Clone Geode SDK
         run: |
-          git clone https://github.com/geode-sdk/geode.git
+          git clone --recursive https://github.com/geode-sdk/geode.git
 
-      - name: Setup Geode
-        run: |
-          cd geode
-          python3 setup.py install
-
-      - name: Configure
+      - name: Configure project
         run: |
           cmake -B build -G Ninja -DGEODE_SDK_PATH=geode
 
@@ -33,7 +28,7 @@ jobs:
         run: |
           cmake --build build
 
-      - name: Upload .geode
+      - name: Upload mod
         uses: actions/upload-artifact@v4
         with:
           name: geode-mod

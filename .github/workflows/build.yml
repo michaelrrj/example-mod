@@ -22,7 +22,8 @@ jobs:
 
       - name: Configure project
         run: |
-          cmake -B build -G Ninja -DGEODE_SDK_PATH=geode
+          export GEODE_SDK=$PWD/geode
+          cmake -B build -G Ninja
 
       - name: Build
         run: |

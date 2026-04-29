@@ -1,0 +1,15 @@
+name: Teste
+
+on: push
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rodar minha action
+        uses: ./.github/actions/action.yml
+        with:
+          nome: Michael

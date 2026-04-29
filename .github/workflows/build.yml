@@ -23,7 +23,7 @@ jobs:
       - name: Configure project
         run: |
           export GEODE_SDK=$PWD/geode
-          cmake -B build -G Ninja -DGEODE_TARGET_PLATFORM=Win32
+          cmake -B build -G Ninja -DGEODE_TARGET_PLATFORM=Windows
 
       - name: Build
         run: |

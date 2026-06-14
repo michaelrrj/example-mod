@@ -24,6 +24,47 @@ runs:
     - name: Setup CLI
       uses: geode-sdk/cli/.github/actions/setup@main
 
+    name: Build Geode mod
+description: Builds a Geode mod
+
+inputs:
+  sdk:
+    description: Which version of the SDK to use
+    required: false
+    default: given
+
+outputs:
+  build-output:
+    description: A folder containing the built .geode file(s)
+    value: ${{ steps.build.outputs.output }}
+
+runs:
+  using: composite
+  steps:
+    - name: Detect platform
+      id: platform
+      shell: bash
+      run: |
+        echo "target=Android64" >> $GITHUB_OUTPUT
+
+    - name: Setup CLI
+      uses: geode-sdk/cli/.github/actions/setup@main
+
+    - name: Setup Geode SDK
+      shell: bash
+      run: |
+        geode sdk install geode-sdk
+        echo "GEODE_SDK=$PWD/geode-sdk" >> $GITHUB_ENV
+
+    - name: Build
+      id: build
+      shell: bash
+      run: |
+        cmake -B build -G Ninja
+        cmake --build build
+        mkdir -p output
+        find build -name "*.geode" -exec cp {} output \;
+        echo "output=$(realpath output)" >> $GITHUB_OUTPUT
     - name: Build
       id: build
       shell: bash

@@ -11,5 +11,3 @@ jobs:
 
       - name: Rodar minha action
         uses: ./.github/actions/build-geode
-        with:
-          nome: Michael
